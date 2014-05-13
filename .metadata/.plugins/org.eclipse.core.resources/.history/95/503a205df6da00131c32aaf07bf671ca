@@ -1,0 +1,126 @@
+/*
+ * This class represents a player's paddle.
+ */
+public class Paddle {
+
+	// We store the paddle's location.
+	private int xPosition;
+	private int yPosition;
+	
+	// We store the paddle's velocity.
+	private int velocity;
+	
+	// We store the paddle's size.
+	private int xSize;
+	private int ySize;
+	
+	/*
+	 * This constructor simply takes an initial position and creates a new
+	 * paddle at that location if the location is within the acceptable
+	 * bounds.
+	 */
+	public Paddle(int xInitial, int yInitial) throws IllegalArgumentException{
+		
+		// We initialize our internal variables.
+		velocity = 0;
+		xSize = 50;
+		ySize = 10;
+		
+		// Check to see if the x-axis position is within bounds.
+		if (xInitial >= 200 && xInitial <= 450) {
+			
+			xPosition = xInitial;
+		} else {
+			
+			throw new IllegalArgumentException("Initial horizontal position out of bounds.");
+		}
+		
+		// Check to see if the y-axis position is acceptable.
+		if (yInitial == 90 || yInitial == 500) {
+			
+			yPosition = yInitial;
+		} else {
+			
+			throw new IllegalArgumentException("Initial vertical position out of bounds.");
+		}
+	}
+	
+	/*
+	 * This method advances the paddle's internal simulation by the given amount of time.
+	 */
+	public void advance(int milliseconds) {
+		
+		// Check to make sure we are given a positive amount of time.
+		if (milliseconds <= 0) {
+			
+			throw new IllegalArgumentException("Time interval cannot be less than 1.");
+		} else {
+			
+			// Calculate new position.
+			int value = (int) (xPosition + ((int) ((double) velocity) * ((double) milliseconds) / (1000.0)));
+			
+			// Snap to acceptable position if necessary.
+			if (value < 100) {
+				
+				xPosition = 100;
+			} else if (value > 350) {
+				
+				xPosition = 350;
+			} else {
+				
+				xPosition = value;
+			}
+		}
+	}
+	
+	/*
+	 * This method set the paddle's velocity.
+	 */
+	public void updateVelocity(int newVelocity) {
+		
+		// Check to see if the given velocity is acceptable.
+		if (newVelocity < -75 || newVelocity > 75) {
+			
+			throw new IllegalArgumentException("New velocity value outside acceptable range.");
+		} else {
+			
+			velocity = newVelocity;
+		}
+	}
+	
+	public void moveRight() {
+		
+		xPosition += 1;
+		
+		if (xPosition > 450) {
+			xPosition = 450;
+		}	
+	}
+	public void moveLeft() {
+		
+		xPosition -= 1;
+		
+		if (xPosition < 200) {
+			xPosition = 200;
+		}
+	}
+	
+	
+	/*
+	 * This method returns an array of integers containing the 
+	 * x-axis and y-axis positions of the paddle.
+	 */
+	public int[] getPosition() {
+		
+		return new int[]{xPosition, yPosition};
+	}
+	
+	/*
+	 * This method returns an array of integers containing the 
+	 * x-axis and y-axis dimensions of the paddle.
+	 */
+	public int[] getSize() {
+		
+		return new int[]{xSize, ySize};
+	}
+}

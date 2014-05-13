@@ -1,0 +1,113 @@
+import static org.junit.Assert.*;
+import org.junit.Test;
+
+
+public class PaddleTests {
+
+	@Test
+	/*
+	 * This tests if the constructor can handle an in range xInitial value
+	 * and an the acceptable low yInitial value. 
+	 */
+	public void ConstructorAcceptableValuesLowYInitial() {
+		
+		try {
+			
+			Paddle tester = new Paddle(150, 40);
+		} catch (Exception e) {
+			
+			fail("Should not have thrown an error.");
+		}
+		
+	}
+	
+	@Test
+	/*
+	 * This tests if the constructor can handle an in range xInitial value
+	 * and the acceptable high yInitial value.
+	 */
+	public void ConstructorAcceptableValuesHighYInitial() {
+		
+		try {
+			
+			Paddle tester = new Paddle(200, 450);
+		} catch (Exception e) {
+			
+			fail("Should not have thrown an error.");
+		}
+	}
+	
+	@Test
+	/*
+	 * This tests if the constructor accepts an xInitial value on the lower boundary
+	 * of the acceptable range.
+	 */
+	public void ConstructorLowerBoundayXInitial() {
+		
+		try {
+			
+			Paddle tester = new Paddle(100, 450);
+		} catch (Exception e) {
+			
+			fail("Should not have thrown an error.");
+		}
+	}
+	
+	@Test
+	/*
+	 * This tests if the constructor accepts an xInitial value on the upper boundary
+	 * of the acceptable range.
+	 */
+	public void ConstructorUpperBoundayXInitial() {
+		
+		try {
+			
+			Paddle tester = new Paddle(250, 450);
+		} catch (Exception e) {
+			
+			fail("Should not have thrown an error.");
+		}
+	}
+
+	@Test
+	/*
+	 * This tests if the constructor will throw an error when given an over range 
+	 * xInitial value.
+	 */
+	public void ConstructorOverRangeXInitial() {
+		
+		try {
+			
+			Paddle tester = new Paddle(500, 450);
+			fail("Should have thrown an error.");
+		} catch (Exception e) {}
+	}
+	
+	@Test
+	/*
+	 * This tests if the constructor will throw an error when given an under range 
+	 * xInitial value.
+	 */
+	public void ConstructorUnderRangeXInitial() {
+		
+		try {
+			
+			Paddle tester = new Paddle(50, 450);
+			fail("Should have thrown an error.");
+		} catch (Exception e) {}
+	}
+	
+	@Test
+	/*
+	 * This tests if the constructor will throw an error when given an unacceptable
+	 * yInitial value.
+	 */
+	public void ConstructorUnacceptableYInitial() {
+		
+		try {
+			
+			Paddle tester = new Paddle(100, 100);
+			fail("Should have thrown an error.");
+		} catch (Exception e) {}
+	}
+}
