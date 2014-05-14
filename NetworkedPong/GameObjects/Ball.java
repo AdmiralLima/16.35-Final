@@ -6,14 +6,14 @@ package GameObjects;
 public class Ball {
 
 	// We need to set the size of a game ball.
-	private final int BALL_RADIUS = 10;
+	private static final int BALL_RADIUS = 10;
 	
 	// We need to set the velocity of a game ball.
 	private final int BALL_VELOCITY = 500;
 	
 	// We need to set bounds on the orientation of a game ball.
-	private final double BALL_MIN_THETA = 0;
-	private final double BALL_MAX_THETA = 2 * Math.PI;
+	public static final double BALL_MIN_THETA = 0;
+	public static final double BALL_MAX_THETA = 2 * Math.PI;
 	
 	// We need to set limits on the horizontal position of the ball.
 	private final int BALL_MIN_X = 100;
@@ -176,7 +176,7 @@ public class Ball {
 	 * This method returns an array of integers containing the 
 	 * x-axis and y-axis dimensions of the ball.
 	 */
-	public int getSize() {
+	public static int getSize() {
 		return BALL_RADIUS;
 	}
 	

@@ -1,3 +1,4 @@
+package GameObjects;
 
 public class Position {
 	
@@ -7,7 +8,7 @@ public class Position {
 		this.pos = pos;
 	}
 	
-	public synchronized int[] getPos(){
+	public synchronized int[] getPosition(){
 		return this.pos;
 	}
 }

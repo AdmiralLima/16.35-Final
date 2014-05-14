@@ -1,3 +1,4 @@
+package GameObjects;
 import java.util.concurrent.ArrayBlockingQueue;
 
 
@@ -23,7 +24,4 @@ public class PositionQueue extends ArrayBlockingQueue<Position> {
 		}
 		return true;
 	}
-	
-	
-
 }

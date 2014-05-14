@@ -6,8 +6,8 @@ package GameObjects;
 public class Paddle {
 
 	// We need to set all paddles' size.
-	private final int PADDLE_X_SIZE = 100;
-	private final int PADDLE_Y_SIZE = 10;
+	public static final int PADDLE_X_SIZE = 100;
+	public static final int PADDLE_Y_SIZE = 10;
 	
 	// We need to set how many pixels per click we 
 	// want the paddle to move.
@@ -129,7 +129,7 @@ public class Paddle {
 	 * This method returns an array of integers containing the 
 	 * x-axis and y-axis dimensions of the paddle.
 	 */
-	public int[] getSize() {
+	public static int[] getSize() {
 		return new int[]{PADDLE_X_SIZE, PADDLE_Y_SIZE};
 	}
 }
