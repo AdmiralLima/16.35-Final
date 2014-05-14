@@ -99,8 +99,7 @@ public class Ball{
 				
 				/* Critical Region */
 				synchronized (this) {
-					theta = Math.PI - theta;
-					wrapTheta();
+					theta = wrapTheta(Math.PI - theta);
 					return true;
 				}
 			}
@@ -112,8 +111,7 @@ public class Ball{
 				
 				/* Critical Region */
 				synchronized (this) {
-					theta = Math.PI - theta;
-					wrapTheta();
+					theta = wrapTheta(Math.PI - theta);
 					return true;
 				}
 			}
@@ -125,8 +123,7 @@ public class Ball{
 				
 				/* Critical Region */
 				synchronized (this) {
-					theta = (2 * Math.PI) - theta;
-					wrapTheta();
+					theta = wrapTheta((2 * Math.PI) - theta);
 					return true;
 				}
 			}
@@ -138,8 +135,7 @@ public class Ball{
 				
 				/* Critical Region */
 				synchronized (this) {
-					theta = (2 * Math.PI) - theta;
-					wrapTheta();
+					theta = wrapTheta((2 * Math.PI) - theta);
 					return true;
 				}
 			}
@@ -175,7 +171,7 @@ public class Ball{
 	public void setPosition(int x, int y, double theta) {
 		xPosition = x;
 		yPosition = y;
-		this.theta = theta;
+		this.theta = wrapTheta(theta);
 	}
 	
 	/*
@@ -190,12 +186,14 @@ public class Ball{
 	 * This method sets theta to an equivalent value within the range
 	 * zero to two times pi. 
 	 */
-	public void wrapTheta() {
+	public static double wrapTheta(double theta) {
 		while (theta < 0) {
 			theta = theta + (2 * Math.PI);
 		}
 		while (theta > 2 * Math.PI) {
 			theta = theta - (2 * Math.PI);
 		}
+		
+		return theta;
 	}
 }

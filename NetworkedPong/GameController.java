@@ -16,6 +16,8 @@ public class GameController extends JFrame implements Runnable{
 	GameView view;
 	PositionQueue padq;
 	PositionQueue ballq;
+	
+	static boolean keyPressed = false;
 
 	public static void main(String[] args) {
 		
@@ -170,13 +172,13 @@ public class GameController extends JFrame implements Runnable{
 	public class arrowKeyListener implements KeyListener {
 		public void keyTyped(KeyEvent k) {}
 		public void keyPressed(KeyEvent k) {
-			if (k.getKeyCode() == KeyEvent.VK_RIGHT) {
-				myPaddle.moveRight();
-				view.repaint();
-			} else if (k.getKeyCode() == KeyEvent.VK_LEFT) {
-				myPaddle.moveLeft();
-				view.repaint();
-			}
+				if (k.getKeyCode() == KeyEvent.VK_RIGHT) {
+					myPaddle.moveRight();
+					padq.offer(new Position(myPaddle.getPosition()));
+				} else if (k.getKeyCode() == KeyEvent.VK_LEFT) {
+					myPaddle.moveLeft();
+					padq.offer(new Position(myPaddle.getPosition()));
+				}
 		}
 		public void keyReleased(KeyEvent k) {}
 	}
