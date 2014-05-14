@@ -9,7 +9,7 @@ public class Ball{
 	private static final int BALL_RADIUS = 10;
 	
 	// We need to set the velocity of a game ball.
-	private final int BALL_VELOCITY = 400;
+	public int BALL_VELOCITY = 600;
 	
 	// We need to set bounds on the orientation of a game ball.
 	private final double BALL_MIN_THETA = 0;
@@ -120,7 +120,7 @@ public class Ball{
 		} 
 		
 		// We hit the top wall.
-		if (yPosition  - BALL_RADIUS < BALL_MIN_Y) {
+		if (yPosition  - BALL_RADIUS < BALL_MIN_Y ) {
 			if (theta > Math.PI) {
 				
 				/* Critical Region */
@@ -170,6 +170,12 @@ public class Ball{
 		synchronized (this) {
 			return theta;
 		}
+	}
+	
+	public void setPosition(int x, int y, double theta) {
+		xPosition = x;
+		yPosition = y;
+		this.theta = theta;
 	}
 	
 	/*

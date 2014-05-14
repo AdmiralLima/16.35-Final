@@ -6,12 +6,12 @@ package GameObjects;
 public class Paddle {
 
 	// We need to set all paddles' size.
-	private static final int PADDLE_X_SIZE = 100;
-	private static final int PADDLE_Y_SIZE = 10;
+	public static int PADDLE_X_SIZE = 100;
+	private static int PADDLE_Y_SIZE = 10;
 	
 	// We need to set how many pixels per click we 
 	// want the paddle to move.
-	private final int  PADDLE_VELOCITY = 50;
+	private final int  PADDLE_VELOCITY = 40;
 	
 	// We need to set limits on the horizontal
 	// position of the paddle.

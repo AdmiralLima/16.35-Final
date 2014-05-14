@@ -8,9 +8,10 @@ import GameObjects.PositionQueue;
  */
 public class BobTheAI implements Runnable{
 
-	Paddle paddle;
-	Ball ball;
-	PositionQueue q;
+	private Paddle paddle;
+	private Ball ball;
+	private PositionQueue q;
+	public int sleepTime = 100;
 	
 	public BobTheAI(Paddle paddle,Ball ball, PositionQueue queue) {
 		
@@ -23,7 +24,7 @@ public class BobTheAI implements Runnable{
 		while (true) {
 		// Bob needs his rest.
 		try {
-			Thread.sleep(200);
+			Thread.sleep(sleepTime);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,14 +36,12 @@ public class BobTheAI implements Runnable{
 		// Bob needs info on the ball's location.
 		int[] ballPosition = ball.getPosition();
 		
-		if (ballPosition[1] < 300) {
-			if (ballPosition[0]> paddlePosition + mySize) {
+			if (ballPosition[0]> paddlePosition + (mySize * 0.75)) {
 				paddle.moveRight();
 			} 
-			if (ballPosition[0]< paddlePosition) {
+			if (ballPosition[0]< paddlePosition + (mySize * 0.25)) {
 				paddle.moveLeft();
 			}
-		}
 		
 		q.offer(new Position(paddle.getPosition()));
 		}

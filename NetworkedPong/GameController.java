@@ -19,39 +19,71 @@ public class GameController extends JFrame implements Runnable{
 
 	public static void main(String[] args) {
 		
-		// First we create our game objects.
-		Paddle paddle1 = new Paddle(250,500);
-		Paddle paddle2 = new Paddle(250,90);
-		Ball ball = new Ball(300,300,4);
+		int ballspeed = 700;
+		int bobspeed = 500;
+					
+			// First we create our game objects.
+			Paddle paddle1 = new Paddle(250,500);
+			Paddle paddle2 = new Paddle(250,90);
+			Ball ball = new Ball(300,300,4);
+			ball.BALL_VELOCITY = ballspeed;
 		
-		//Create queues.
-		PositionQueue pad1 = new PositionQueue();
-		PositionQueue pad2 = new PositionQueue();
-		PositionQueue ballq = new PositionQueue();
+			//Create queues.
+			PositionQueue pad1 = new PositionQueue();
+			PositionQueue pad2 = new PositionQueue();
+			PositionQueue ballq = new PositionQueue();
 		
-		// Create a new AI.
-		BobTheAI bob = new BobTheAI(paddle2, ball, pad2);
-		Thread ai = new Thread(bob);
+			// Create a new AI.
+			BobTheAI bob = new BobTheAI(paddle2, ball, pad2);			
+			
+			// Create a new view.
+			GameView view = new GameView(pad1, pad2, ballq);
 		
-		// Create a new view.
-		GameView view = new GameView(pad1, pad2, ballq);
-		Thread v = new Thread(view);
+			// Create a new game.
+			GameController game = new GameController(paddle1, paddle2, ball, view, pad1, ballq);
 		
-		// Create a new game.
-		GameController game = new GameController(paddle1, paddle2, ball, view, pad1, ballq);
-		Thread con = new Thread(game);
+			// Make the game visible.
+			game.pack();
+			game.setVisible(true);
 		
-		// Make the game visible.
-		game.pack();
-		game.setVisible(true);
-		
-		// We need to start our threads.
-		con.start();
-		ai.start();
-		try {
-		Thread.sleep(50);
-		} catch (Exception e) {}
-		v.start();
+			Thread ai;
+			Thread v;
+			Thread con;
+
+			while (true) {
+				
+				bob.sleepTime = bobspeed;
+				ball.BALL_VELOCITY = ballspeed;
+			
+				ai = new Thread(bob);
+				v = new Thread(view);
+				con = new Thread(game);
+			
+				// We need to start our threads.
+				ai.start();
+				v.start();
+				try {
+					Thread.sleep(500);
+				} catch (Exception e) {}
+				con.start();
+			
+				while (view.gameStatus.get() == 0) {}
+				try {
+					Thread.sleep(2000);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (view.gameStatus.get() == -1) {break;}
+				view.gameStatus.set(0);
+				ballspeed = ballspeed + 50;
+				if (bobspeed >= 50) {
+					bobspeed = bobspeed - 25;
+				}
+				if (Paddle.PADDLE_X_SIZE > 10) {
+					Paddle.PADDLE_X_SIZE -= 5;
+				}
+				view.level += 1;
+				}
 	}
 
 	public void run() {
@@ -109,8 +141,8 @@ public class GameController extends JFrame implements Runnable{
 		int[] ballLocation = ball.getPosition();
 		int radius = ball.getSize();
 		if (ballLocation[1] > 300) {
-			if (ballLocation[0] > 150 + radius && ballLocation[0] < 450 - radius) {
-				if (ballLocation[0] < myLocation  - radius || ballLocation[0] > myLocation + mySize + radius) {
+			if (ballLocation[0] > 155 + radius  && ballLocation[0] < 445 - radius) {
+				if (ballLocation[0] < myLocation  - radius - 10 || ballLocation[0] > myLocation + mySize + radius + 10) {
 					return true;
 				}
 			}
@@ -126,8 +158,8 @@ public class GameController extends JFrame implements Runnable{
 		int[] ballLocation = ball.getPosition();
 		int radius = ball.getSize();
 		if (ballLocation[1] < 300) {
-			if (ballLocation[0] > 150 + radius && ballLocation[0] < 450 - radius) {
-				if (ballLocation[0] < yourLocation  - radius || ballLocation[0] > yourLocation + yourSize + radius) {
+			if (ballLocation[0] > 155 + radius && ballLocation[0] < 445 - radius) {
+				if (ballLocation[0] < yourLocation  - radius - 10 || ballLocation[0] > yourLocation + yourSize + radius + 10) {
 					return true;
 				}
 			}
