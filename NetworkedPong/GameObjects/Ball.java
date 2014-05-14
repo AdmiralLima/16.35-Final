@@ -3,17 +3,17 @@ package GameObjects;
 /*
  * This class represents a game ball.
  */
-public class Ball {
+public class Ball{
 
 	// We need to set the size of a game ball.
 	private static final int BALL_RADIUS = 10;
 	
 	// We need to set the velocity of a game ball.
-	private final int BALL_VELOCITY = 500;
+	private final int BALL_VELOCITY = 400;
 	
 	// We need to set bounds on the orientation of a game ball.
-	public static final double BALL_MIN_THETA = 0;
-	public static final double BALL_MAX_THETA = 2 * Math.PI;
+	private final double BALL_MIN_THETA = 0;
+	private final double BALL_MAX_THETA = 2 * Math.PI;
 	
 	// We need to set limits on the horizontal position of the ball.
 	private final int BALL_MIN_X = 100;

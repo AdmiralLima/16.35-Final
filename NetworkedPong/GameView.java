@@ -1,11 +1,16 @@
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.*;
 
-import GameObjects.*;
+import GameObjects.Ball;
+import GameObjects.Paddle;
+import GameObjects.Position;
+import GameObjects.PositionQueue;
+
 /*
- * This class provides 
+ * This class provides a GUI for the project.
  */
 public class GameView extends JPanel implements Runnable{
 
@@ -13,13 +18,16 @@ public class GameView extends JPanel implements Runnable{
 	private int[] myLocation = new int[2];
 	private PositionQueue yourPaddle;
 	private int[] yourLocation = new int[2];
+	
+	//private Vector<PositionQueue> balls;
 	private PositionQueue gameBall;
 	private int[] ballLocation = new int[2];
 	
 	private int[] paddleSize = Paddle.getSize();
 	private int radius = Ball.getSize();
 	
-	public int gameStatus = 0;
+	/* Shared Resource */
+	private AtomicInteger gameStatus = new AtomicInteger(0);
 	
 	public GameView(PositionQueue myPaddle, PositionQueue yourPaddle, PositionQueue gameBall) {
 		
@@ -32,7 +40,7 @@ public class GameView extends JPanel implements Runnable{
 	
 	
 	public void run(){
-		while(gameStatus == 0){
+		while(true){
 			myLocation = getPosition(myPaddle,myLocation);
 			yourLocation = getPosition(yourPaddle,yourLocation);
 			ballLocation = getPosition(gameBall, ballLocation);
@@ -40,7 +48,6 @@ public class GameView extends JPanel implements Runnable{
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -48,7 +55,7 @@ public class GameView extends JPanel implements Runnable{
 	
 	public void paintComponent(Graphics g) {
 		
-		if (gameStatus == 0) {
+		if (gameStatus.get() == 0) {
 			
 			super.paintComponent( g );
 			Graphics2D g2= (Graphics2D) g;
@@ -74,7 +81,7 @@ public class GameView extends JPanel implements Runnable{
 			// We need to draw the ball.
 			g2.setPaint(Color.cyan);
 			g2.fill(new Ellipse2D.Double(ballLocation[0] - radius, ballLocation[1] - radius,2 * radius,2 * radius));
-		} else if (gameStatus == -1) {
+		} else if (gameStatus.get() == -1) {
 			
 			super.paintComponent( g );
 			Graphics2D g2= (Graphics2D) g;
@@ -94,7 +101,7 @@ public class GameView extends JPanel implements Runnable{
 			g2.setPaint( Color.black);
 			g2.setFont(new Font("TimesRoman", Font.BOLD, 50)); 
 			g2.drawString("Epic Defeat", 150, 300);
-		} else if (gameStatus == 1) {
+		} else if (gameStatus.get() == 1) {
 			super.paintComponent( g );
 			Graphics2D g2= (Graphics2D) g;
 			setBackground(Color.green);
@@ -124,5 +131,8 @@ public class GameView extends JPanel implements Runnable{
 			return p.getPosition();
 		}
 	}
+	public void updateGameStatus(int status) {
 		
+		gameStatus.set(status);
+	}
 }

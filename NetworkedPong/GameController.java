@@ -1,8 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
 import GameObjects.Ball;
 import GameObjects.Paddle;
+import GameObjects.Position;
+import GameObjects.PositionQueue;
 
 public class GameController extends JFrame implements Runnable{
 	
@@ -10,60 +14,88 @@ public class GameController extends JFrame implements Runnable{
 	Paddle yourPaddle;
 	Ball ball;
 	GameView view;
-	BobTheAI bob;
+	PositionQueue padq;
+	PositionQueue ballq;
 
 	public static void main(String[] args) {
 		
+		// First we create our game objects.
+		Paddle paddle1 = new Paddle(250,500);
+		Paddle paddle2 = new Paddle(250,90);
+		Ball ball = new Ball(300,300,4);
+		
+		//Create queues.
+		PositionQueue pad1 = new PositionQueue();
+		PositionQueue pad2 = new PositionQueue();
+		PositionQueue ballq = new PositionQueue();
+		
+		// Create a new AI.
+		BobTheAI bob = new BobTheAI(paddle2, ball, pad2);
+		Thread ai = new Thread(bob);
+		
+		// Create a new view.
+		GameView view = new GameView(pad1, pad2, ballq);
+		Thread v = new Thread(view);
+		
 		// Create a new game.
-		GameController game = new GameController();
+		GameController game = new GameController(paddle1, paddle2, ball, view, pad1, ballq);
+		Thread con = new Thread(game);
 		
 		// Make the game visible.
 		game.pack();
 		game.setVisible(true);
-		game.run();
 		
+		// We need to start our threads.
+		con.start();
+		ai.start();
+		try {
+		Thread.sleep(50);
+		} catch (Exception e) {}
+		v.start();
 	}
 
 	public void run() {
 		long time = System.currentTimeMillis();
-		boolean gameOn = true;
-		while (gameOn) {
+		
+		while(true) {
+		
 			try{
-				Thread.sleep(5);
-			}
-			catch (Exception e) {}
-			bob.thinkBob();
+				Thread.sleep(20);
+			} catch (Exception e) {}
+		
 			long current = System.currentTimeMillis();
-			ball.advance(current - time);
-			boolean checkForWin = ball.collision();
-			if (checkForWin) {
-				if (checkDefeat()) {
-					gameOn = false;
-					view.gameStatus = -1;
-				} else if (checkVictory()) {
-					gameOn = false;
-					view.gameStatus = 1;
+				ball.advance(current - time);
+				if (ball.collision()) {
+					if (checkVictory()) {
+						view.updateGameStatus(1);
+						break;
+					}
+					if (checkDefeat()) {
+						view.updateGameStatus(-1);
+						break;
+					}
 				}
-			}
-			view.repaint();
-			time = current;
+				padq.offer(new Position(myPaddle.getPosition()));
+				ballq.offer(new Position(ball.getPosition()));
+				time = current;
 		}
+		
 	}
 	
-	public GameController() {
+	public GameController(Paddle pad1, Paddle pad2, Ball ball, GameView gView, PositionQueue pq, PositionQueue bq) {
 		
 		// Set the window title with the super constructor.
-		super("Networked Pong");
+		super("Epic Pong.");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		myPaddle = new Paddle(250,500);
-		yourPaddle = new Paddle(250,90);
-		ball = new Ball(300,300,2);
-		bob = new BobTheAI(yourPaddle, ball);
-		
-		view = new GameView(myPaddle, yourPaddle, ball);
-		
 		addKeyListener(new arrowKeyListener());
+		
+		myPaddle = pad1;
+		yourPaddle = pad2;
+		this.ball = ball;
+		view = gView;
+		padq = pq;
+		ballq = bq;
 		
 		Container container = getContentPane();
 		container.add(view, BorderLayout.CENTER);
@@ -104,22 +136,16 @@ public class GameController extends JFrame implements Runnable{
 	}
 	
 	public class arrowKeyListener implements KeyListener {
-		
 		public void keyTyped(KeyEvent k) {}
-		
 		public void keyPressed(KeyEvent k) {
 			if (k.getKeyCode() == KeyEvent.VK_RIGHT) {
-				
 				myPaddle.moveRight();
 				view.repaint();
-				
 			} else if (k.getKeyCode() == KeyEvent.VK_LEFT) {
-				
 				myPaddle.moveLeft();
 				view.repaint();
 			}
 		}
-
 		public void keyReleased(KeyEvent k) {}
 	}
 }
