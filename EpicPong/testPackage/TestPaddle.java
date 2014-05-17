@@ -1,11 +1,11 @@
-package TestPackage;
+package EpicPong.testPackage;
 
 import static org.junit.Assert.*;
 import junit.framework.Assert;
 
 import org.junit.Test;
 
-import GameObjects.Paddle;
+import EpicPong.GameObjects.Paddle;
 
 public class TestPaddle {
 	
@@ -14,6 +14,8 @@ public class TestPaddle {
 	 * Traces to Requirements:
 	 * -has constructor that takes two integer parameters
 	 * -takes input integer
+	 * Trace:
+	 * P.1, P.1.1, P.1.2, P.1.3
 	 */
 	@Test
 	public void testConstructorPaddle() {
@@ -24,7 +26,7 @@ public class TestPaddle {
 			assertArrayEquals(new int[]{250,90},p.getPosition());
 		}
 		catch(IllegalArgumentException e){
-			fail("Failed requirement: ");
+			fail("Failed requirement: P.1, P.1.2");
 		}
 		
 		//inbounds x and upper y
@@ -33,7 +35,7 @@ public class TestPaddle {
 			assertArrayEquals(new int[]{250,500},p.getPosition());
 		}
 		catch(IllegalArgumentException e){
-			fail("Failed requirement: ");
+			fail("Failed requirement: P.1.2");
 		}
 		
 		//max x
@@ -42,7 +44,7 @@ public class TestPaddle {
 			assertArrayEquals(new int[]{150,90},p.getPosition());
 		}
 		catch(IllegalArgumentException e){
-			fail("Failed requirement: ");
+			fail("Failed requirement: P.1.1");
 		}
 		
 		//min x
@@ -51,13 +53,13 @@ public class TestPaddle {
 			assertArrayEquals(new int[]{350,90},p.getPosition());
 		}
 		catch(IllegalArgumentException e){
-			fail("Failed requirement: ");
+			fail("Failed requirement: P.1.1");
 		}
 		
 		//out of bounds max x
 		try{
 			p = new Paddle(351,90);
-			fail("Failed requirement: ");
+			fail("Failed requirement: P.1.1");
 		}
 		catch(IllegalArgumentException e){
 		}
@@ -65,7 +67,7 @@ public class TestPaddle {
 		//out of bounds min x
 		try{
 			p = new Paddle(149,90);
-			fail("Failed requirement: ");
+			fail("Failed requirement: P.1.1");
 		}
 		catch(IllegalArgumentException e){
 		}
@@ -73,7 +75,7 @@ public class TestPaddle {
 		//out of bounds y
 		try{
 			p = new Paddle(250,250);
-			fail("Failed requirement: ");
+			fail("Failed requirement: P.1.2");
 		}
 		catch(IllegalArgumentException e){
 		}
@@ -86,7 +88,7 @@ public class TestPaddle {
 	public void testMoveRight() {
 		int x = 200; int y = 90;
 		Paddle p = new Paddle(x,y);
-		int vel = 50;
+		int vel = 40;
 		
 		// normal case
 		p.moveRight();
@@ -104,17 +106,17 @@ public class TestPaddle {
 	public void testMoveLeft() {
 		int x = 250; int y = 90;
 		Paddle p = new Paddle(x,y);
-		int vel = 50;
+		int vel = 40;
 		
 		// normal case
-		p.moveRight();
+		p.moveLeft();
 		int[] expectedPos = new int[]{x-vel,y}; 
 		assertArrayEquals(expectedPos,p.getPosition());
 		
 		//min bound
 		p.setPosition(170, y);
 		expectedPos[0] = 150;
-		p.moveRight();
+		p.moveLeft();
 		assertArrayEquals(expectedPos,p.getPosition());
 	}
 

@@ -1,4 +1,4 @@
-package GameObjects;
+package EpicPong.GameObjects;
 
 public class Position {
 	

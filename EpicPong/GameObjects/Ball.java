@@ -1,4 +1,4 @@
-package GameObjects;
+package EpicPong.GameObjects;
 
 /*
  * This class represents a game ball.
@@ -168,6 +168,9 @@ public class Ball{
 		}
 	}
 	
+	/*
+	 * Set position but there is no check on parameters
+	 */
 	public void setPosition(int x, int y, double theta) {
 		xPosition = x;
 		yPosition = y;

@@ -1,7 +1,8 @@
-import GameObjects.Ball;
-import GameObjects.Paddle;
-import GameObjects.Position;
-import GameObjects.PositionQueue;
+package EpicPong;
+import EpicPong.GameObjects.Ball;
+import EpicPong.GameObjects.Paddle;
+import EpicPong.GameObjects.Position;
+import EpicPong.GameObjects.PositionQueue;
 
 /*
  * This class provides a simple AI player for the game.

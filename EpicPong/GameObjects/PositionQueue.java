@@ -1,7 +1,8 @@
-package GameObjects;
+package EpicPong.GameObjects;
 import java.util.concurrent.ArrayBlockingQueue;
 
 
+@SuppressWarnings("serial")
 public class PositionQueue extends ArrayBlockingQueue<Position> {
 	
 	

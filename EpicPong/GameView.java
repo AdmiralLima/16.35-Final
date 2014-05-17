@@ -1,17 +1,19 @@
+package EpicPong;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.*;
 
-import GameObjects.Ball;
-import GameObjects.Paddle;
-import GameObjects.Position;
-import GameObjects.PositionQueue;
+import EpicPong.GameObjects.Ball;
+import EpicPong.GameObjects.Paddle;
+import EpicPong.GameObjects.Position;
+import EpicPong.GameObjects.PositionQueue;
 
 /*
  * This class provides a GUI for the project.
  */
+@SuppressWarnings("serial")
 public class GameView extends JPanel implements Runnable{
 
 	private PositionQueue myPaddle;

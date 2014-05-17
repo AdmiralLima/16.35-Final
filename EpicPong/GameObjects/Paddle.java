@@ -1,4 +1,4 @@
-package GameObjects;
+package EpicPong.GameObjects;
 
 /*
  * This class represents a player's paddle.

@@ -1,21 +1,23 @@
+package EpicPong;
 import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
 
-import GameObjects.Ball;
-import GameObjects.Paddle;
-import GameObjects.Position;
-import GameObjects.PositionQueue;
+import EpicPong.GameObjects.Ball;
+import EpicPong.GameObjects.Paddle;
+import EpicPong.GameObjects.Position;
+import EpicPong.GameObjects.PositionQueue;
 
+@SuppressWarnings("serial")
 public class GameController extends JFrame implements Runnable{
 	
-	Paddle myPaddle;
-	Paddle yourPaddle;
-	Ball ball;
-	GameView view;
-	PositionQueue padq;
-	PositionQueue ballq;
+	protected Paddle myPaddle;
+	protected Paddle yourPaddle;
+	protected Ball ball;
+	protected GameView view;
+	protected PositionQueue padq;
+	protected PositionQueue ballq;
 	
 	static boolean keyPressed = false;
 
@@ -138,10 +140,10 @@ public class GameController extends JFrame implements Runnable{
 	public boolean checkDefeat() {
 		
 		int myLocation = myPaddle.getPosition()[0];
-		int mySize = myPaddle.getSize()[0];
+		int mySize = Paddle.getSize()[0];
 		
 		int[] ballLocation = ball.getPosition();
-		int radius = ball.getSize();
+		int radius = Ball.getSize();
 		if (ballLocation[1] > 300) {
 			if (ballLocation[0] > 155 + radius  && ballLocation[0] < 445 - radius) {
 				if (ballLocation[0] < myLocation  - radius - 10 || ballLocation[0] > myLocation + mySize + radius + 10) {
@@ -155,10 +157,10 @@ public class GameController extends JFrame implements Runnable{
 	public boolean checkVictory() {
 		
 		int yourLocation = yourPaddle.getPosition()[0];
-		int yourSize = yourPaddle.getSize()[0];
+		int yourSize = Paddle.getSize()[0];
 		
 		int[] ballLocation = ball.getPosition();
-		int radius = ball.getSize();
+		int radius = Ball.getSize();
 		if (ballLocation[1] < 300) {
 			if (ballLocation[0] > 155 + radius && ballLocation[0] < 445 - radius) {
 				if (ballLocation[0] < yourLocation  - radius - 10 || ballLocation[0] > yourLocation + yourSize + radius + 10) {
